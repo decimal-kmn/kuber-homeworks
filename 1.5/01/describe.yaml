@@ -1,0 +1,87 @@
+Name:             data-exchange-6cd4676cd-96md4
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Mon, 26 Jan 2026 22:00:13 +0400
+Labels:           app=kube-1-5-app
+                  pod-template-hash=6cd4676cd
+Annotations:      <none>
+Status:           Running
+IP:               10.244.0.96
+IPs:
+  IP:           10.244.0.96
+Controlled By:  ReplicaSet/data-exchange-6cd4676cd
+Containers:
+  busybox:
+    Container ID:  docker://9a4ff05f411146c06999d04adcc15f5027203f0bfc17d3a1614f3e060929b37f
+    Image:         busybox
+    Image ID:      docker-pullable://busybox@sha256:e226d6308690dbe282443c8c7e57365c96b5228f0fe7f40731b5d84d37a06839
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/sh
+      -c
+    Args:
+      echo $(date) > shared/data.txt; sleep 3600
+    State:          Running
+      Started:      Mon, 26 Jan 2026 22:00:20 +0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-47txz (ro)
+  multitool:
+    Container ID:  docker://79231322c68af58fc5613b84f294ec563c71921cdf2521caa526da4036b8a696
+    Image:         busybox
+    Image ID:      docker-pullable://busybox@sha256:e226d6308690dbe282443c8c7e57365c96b5228f0fe7f40731b5d84d37a06839
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/sh
+      -c
+    Args:
+      tail -f /shared/data.txt
+    State:          Running
+      Started:      Mon, 26 Jan 2026 22:00:22 +0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-47txz (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  shared-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-47txz:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  6m53s  default-scheduler  Successfully assigned default/data-exchange-6cd4676cd-96md4 to minikube
+  Normal  Pulling    6m50s  kubelet            spec.containers{busybox}: Pulling image "busybox"
+  Normal  Pulled     6m47s  kubelet            spec.containers{busybox}: Successfully pulled image "busybox" in 2.75s (2.75s including waiting). Image size: 4425286 bytes.
+  Normal  Created    6m47s  kubelet            spec.containers{busybox}: Created container: busybox
+  Normal  Started    6m47s  kubelet            spec.containers{busybox}: Started container busybox
+  Normal  Pulling    6m47s  kubelet            spec.containers{multitool}: Pulling image "busybox"
+  Normal  Pulled     6m45s  kubelet            spec.containers{multitool}: Successfully pulled image "busybox" in 1.445s (1.445s including waiting). Image size: 4425286 bytes.
+  Normal  Created    6m45s  kubelet            spec.containers{multitool}: Created container: multitool
+  Normal  Started    6m45s  kubelet            spec.containers{multitool}: Started container multitool
