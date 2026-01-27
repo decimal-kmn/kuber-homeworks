@@ -1,8 +1,7 @@
----
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: kube-1-5-02-pv
+  name: kube-1-5-03-pv
 spec:
   capacity:
     storage: 1Gi
@@ -15,12 +14,18 @@ spec:
     path: /shared
     type: DirectoryOrCreate
 ---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: kube-1-5-03-sc
+provisioner: kubernetes.io/no-provisioner # ИНФОРМАЦИЯ: Нет автоматического развёртывания
+volumeBindingMode: WaitForFirstConsumer
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kube-1-5-02-pvc
+  name: kube-1-5-03-pvc
 spec:
-  volumeName: kube-1-5-02-pv
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
@@ -32,22 +37,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kube-1-5-02-app
+  name: data-exchange-sc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kube-1-5-02-app
+      app: data-exchange-sc
   template:
     metadata:
       labels:
-        app: kube-1-5-02-app
+        app: data-exchange-sc
     spec:
       containers:
       - name: busybox
         image: busybox
         command: ["/bin/sh", "-c"] 
-        args: ["while true; do echo $(date) from netology...>> /shared/data.txt; sleep 5; done"] # КЛЮЧЕВОЕ: Команда записи данных в файл в директории из секции volumeMounts контейнера 
+        args: ["while true; do echo $(date) netology storageClass example >> /shared/data.txt; sleep 5; done"] # КЛЮЧЕВОЕ: Команда для чтения данных из файла, расположенного в директории, указанной в volumeMounts контейнера
         volumeMounts:
         - name: shared-data
           mountPath: /shared
@@ -61,4 +66,4 @@ spec:
       volumes:
       - name: shared-data
         persistentVolumeClaim:
-          claimName: kube-1-5-02-pvc
+          claimName: kube-1-5-03-pvc
