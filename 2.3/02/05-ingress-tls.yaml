@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kube-2-3-02-ingress
+  labels:
+    app.kubernetes.io/name: kube-2-3-02-ingress
+spec:
+  tls:
+    - hosts:
+      - myapp.local
+      secretName: kube-2-3-02-secret
+  rules:
+  - host: myapp.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: kube-2-3-02-svc
+            port: 
+              number: 81
+      - pathType: Prefix
+        path: "/multi"
+        backend:
+          service:
+            name: kube-2-3-02-svc
+            port: 
+              number: 80

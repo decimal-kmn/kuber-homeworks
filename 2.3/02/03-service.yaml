@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-2-3-02-svc
+spec:
+  selector:
+    app: kube-2-3-02-app
+  ports:
+  - port: 81
+    targetPort: 81
+    name: nginx
+  - port: 80
+    targetPort: 80
+    name: multitool

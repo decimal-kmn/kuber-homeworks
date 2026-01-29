@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-2-3-01-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-2-3-01-app
+  template:
+    metadata:
+      labels:
+        app: kube-2-3-01-app
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 81
+        volumeMounts:
+        - name: nginx-config # ПОДКЛЮЧЕНИЕ ConfigMap
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+        - name: web-content
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: kube-2-3-01-cfg
+      - name: web-content
+        configMap:
+          name: kube-2-3-01-cfg
