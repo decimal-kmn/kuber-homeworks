@@ -1,6 +1,6 @@
 ## 2.4 Helm homeworks
 
-### helm install
+### helm install release
 ```bash
 helm install v1-netology-app . --namespace app1 --set imageTag="stable-alpine" --set servicePort=80 --set ingressPath="v1"
 helm install v2-netology-app . --namespace app1 --set imageTag="1.29.4" --set servicePort=81 --set ingressPath="v2"
