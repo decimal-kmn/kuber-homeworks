@@ -1,0 +1,4 @@
+apiVersion: v2
+name: netology-app
+description: Helm chart for netology app
+version: 1.0.0

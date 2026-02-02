@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-front-app
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-front-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-front-app
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-front-app
+        image: nginx
+        ports:
+        - containerPort: 80

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-back-app
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-back-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-back-app
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-back-app
+        image: wbitt/network-multitool
+        ports:
+        - containerPort: 80

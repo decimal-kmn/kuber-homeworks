@@ -1,0 +1,4 @@
+imageTag: "nginx:latest"
+servicePort: 80
+ingressPort: 80
+ingressPath: v1
